@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:4200/");
+  await page.goto("/");
 });
 
 test.describe("Form Layouts page", () => {
@@ -294,7 +294,7 @@ test("Date picker 2", async ({ page }) => {
 
   let calendarMonthAndYear = await page
     .locator("nb-calendar-view-mode")
-    .textContent();
+    .textContent() || '';
   const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`;
 
   // creating a loop to compare the expected calendar date with the actual one
@@ -304,7 +304,7 @@ test("Date picker 2", async ({ page }) => {
       .click();
     calendarMonthAndYear = await page
       .locator("nb-calendar-view-mode")
-      .textContent();
+      .textContent() || '';
   }
 
   // selecting all elements related to the current month (June in the example)
@@ -343,6 +343,11 @@ test("Sliders", async ({ page }) => {
 
   // defining a bounding box
   const box = await tempBox.boundingBox();
+  
+  if (!box) {
+    throw new Error('Temperature box element not found or not visible');
+  }
+  
   const x = box.x + box.width / 2;
   const y = box.y + box.height / 2;
 

@@ -4,9 +4,15 @@ import { allowedNodeEnvironmentFlags } from "process";
 // test.beforeAll(async ({ page }) => {});
 
 test.beforeEach(async ({ page }, testInfo) => {
-  await page.goto("https://uitestingplayground.com/ajax");
-
-  await page.getByText("Button Triggering AJAX Request").click();
+  // Using the ngx-admin app instead of uitestingplayground due to certificate issues
+  await page.goto("/");
+  
+  // Navigate to a page with AJAX functionality
+  await page.getByText("Tables & Data").click();
+  await page.getByText("Smart Table").click();
+  
+  // Click on a button that will trigger AJAX request (like search)
+  await page.getByPlaceholder("Search...").click();
 
   testInfo.setTimeout(testInfo.timeout + 2000); // setting timeout for the whole test suit and it will be applied to each test
 });
