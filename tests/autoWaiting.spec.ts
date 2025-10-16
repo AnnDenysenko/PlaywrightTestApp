@@ -1,16 +1,16 @@
 import { test, expect } from "@playwright/test";
-import { allowedNodeEnvironmentFlags } from "process";
+import dotenv from "dotenv";
 
 // test.beforeAll(async ({ page }) => {});
 
 test.beforeEach(async ({ page }, testInfo) => {
   // Using the ngx-admin app instead of uitestingplayground due to certificate issues
-  await page.goto("/");
-  
+  await page.goto(process.env.URL || 'http://localhost:4200/');
+
   // Navigate to a page with AJAX functionality
   await page.getByText("Tables & Data").click();
   await page.getByText("Smart Table").click();
-  
+
   // Click on a button that will trigger AJAX request (like search)
   await page.getByPlaceholder("Search...").click();
 

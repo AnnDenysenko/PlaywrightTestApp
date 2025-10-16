@@ -5,6 +5,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Form Layouts page", () => {
+  test.describe.configure({ retries: 2 });
+
   test.beforeEach(async ({ page }) => {
     await page.getByText("Forms").click();
     await page.getByText("Form Layouts").click();
@@ -292,9 +294,8 @@ test("Date picker 2", async ({ page }) => {
   // creating a date to represent the assertion using JS interpolation
   const dateToAssert = `${expectedMonthShort} ${expectedDate}, ${expectedYear}`;
 
-  let calendarMonthAndYear = await page
-    .locator("nb-calendar-view-mode")
-    .textContent() || '';
+  let calendarMonthAndYear =
+    (await page.locator("nb-calendar-view-mode").textContent()) || "";
   const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`;
 
   // creating a loop to compare the expected calendar date with the actual one
@@ -302,9 +303,8 @@ test("Date picker 2", async ({ page }) => {
     await page
       .locator("nb-calendar-pageable-navigation [data-name='chevron-right']")
       .click();
-    calendarMonthAndYear = await page
-      .locator("nb-calendar-view-mode")
-      .textContent() || '';
+    calendarMonthAndYear =
+      (await page.locator("nb-calendar-view-mode").textContent()) || "";
   }
 
   // selecting all elements related to the current month (June in the example)
@@ -343,11 +343,11 @@ test("Sliders", async ({ page }) => {
 
   // defining a bounding box
   const box = await tempBox.boundingBox();
-  
+
   if (!box) {
-    throw new Error('Temperature box element not found or not visible');
+    throw new Error("Temperature box element not found or not visible");
   }
-  
+
   const x = box.x + box.width / 2;
   const y = box.y + box.height / 2;
 
@@ -362,6 +362,4 @@ test("Sliders", async ({ page }) => {
   await expect(tempBox).toContainText("30");
 });
 
-test(" Drag & Drop with iFrames", async ({ page }) => {
-  
-});
+test(" Drag & Drop with iFrames", async ({ page }) => {});

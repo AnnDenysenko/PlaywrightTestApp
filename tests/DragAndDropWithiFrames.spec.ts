@@ -1,7 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "../test-options";
 
-test(" Drag & Drop with iFrames", async ({ page }) => {
-  await page.goto("https://www.globalsqa.com/demo-site/draganddrop/");
+test(" Drag & Drop with iFrames", async ({ page, globalsQaUrl }) => {
+  await page.goto(globalsQaUrl);
 
   // creating a frame locator
   const frame = page.frameLocator('[rel-title="Photo Manager"] iframe');
@@ -18,5 +19,8 @@ test(" Drag & Drop with iFrames", async ({ page }) => {
   // releasing the mouse
   await page.mouse.up();
 
-  await expect(frame.locator("#trash li h5")).toHaveText(["High Tatras 2", "High Tatras 4"]);
+  await expect(frame.locator("#trash li h5")).toHaveText([
+    "High Tatras 2",
+    "High Tatras 4",
+  ]);
 });
