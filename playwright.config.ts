@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import type {} from "./test-options";
 
 /**
  * Read environment variables from file.
@@ -29,7 +30,11 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined, // in CI we want to run tests one by one and locally we want to run tests in parallel
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: [
+    ["html"],
+    ["junit", { outputFile: "test-results/junit-results.xml" }],
+    ["allure-playwright", { outputFolder: "allure-results" }],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -54,34 +59,48 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: "dev",
-      use: {
-        ...devices["Desktop Chrome"],
-        baseURL: "http://localhost:4201/",
-      },
-    },
-    {
-      name: "staging",
-      use: {
-        ...devices["Desktop Chrome"],
-        baseURL: "http://localhost:4202/",
-      },
-    },
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
+    // {
+    //   name: "dev",
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //     baseURL: "http://localhost:4201/",
+    //   },
+    //   testIgnore: "**/testMobile.spec.ts",
+    // },
+    // {
+    //   name: "staging",
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //     baseURL: "http://localhost:4202/",
+    //   },
+    //   testIgnore: "**/testMobile.spec.ts",
+    // },
+    // {
+    //   name: "chromium",
+    //   use: { ...devices["Desktop Chrome"] },
+    //   testIgnore: "**/testMobile.spec.ts",
+    // },
 
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
+    // {
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] },
+    //   testIgnore: "**/testMobile.spec.ts",
+    // },
 
+    // {
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] },
+    //   testIgnore: "**/testMobile.spec.ts",
+    // },
     {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      name: "mobile-chrome",
+      use: { ...devices["iPhone 13 Pro"] },
+      testMatch: "testMobile.spec.ts",
     },
+    // {
+    //   name: "mobile-safari",
+    //   use: { ...devices["iPhone 12"] },
+    // },
 
     /* Test against mobile viewports. */
     // {
@@ -111,4 +130,9 @@ export default defineConfig({
   //   url: "http://localhost:4200",
   //   reuseExistingServer: !process.env.CI,
   // },
+  webServer: {
+    command: "npm run start",
+    url: "http://localhost:4200",
+    reuseExistingServer: !process.env.CI,
+  },
 });

@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  playwright-test:
+    image: pw-pageobject-test
+    build: .
+    command: npx playwright test
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results

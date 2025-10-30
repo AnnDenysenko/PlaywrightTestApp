@@ -7,7 +7,7 @@ import {
 import { PageManager } from "./page-objects/pageManager";
 
 export type TestOptions = {
-  globalsQaUrl?: string;
+  globalsQaUrl: string;
   formLayoutsPage: string;
   pageManager: PageManager;
 };
@@ -39,7 +39,7 @@ export { expect };
 // Extend the PlaywrightTestConfig interface to include our custom options
 declare module "@playwright/test" {
   interface PlaywrightTestOptions {
-    globalsQaUrl?: string;
+    globalsQaUrl: string;
     formLayoutsPage: string;
   }
 }

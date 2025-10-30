@@ -18,3 +18,9 @@ I've proposed changes to your Playwright configuration to automatically start th
 I've also added a convenient script to your package.json so you can start the test app directly from your test project by running:
 
 npm run start-test-app
+
+To open/run Docker container:
+docker run -it pw-pageobject-test /bin/bash
+
+If the cintainer is alredy running and you want to access it:
+docker exec -it <container-id-or-name> /bin/bash
